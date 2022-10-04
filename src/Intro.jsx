@@ -83,7 +83,7 @@ const Intro = () => {
       <div className="bg-dark container col-xl-10 col-xxl-8 px-4 py-5">
         <div className="row align-items-center g-lg-5 py-5">
           <h1 className="display-4 fw-bold lh-1 mb-3 text-white">
-            Canal de pago para red Ethereum o similares
+            Tutorial de árbol de merkle para solidity
           </h1>
         </div>
       </div>
@@ -91,45 +91,42 @@ const Intro = () => {
         <div className="row align-items-center g-lg-5 py-5">
           <div className="col-lg-7 text-center text-lg-start">
             <h1 className="display-4 fw-bold lh-1 mb-3 text-white">
-              ¿Qué es un canal de pago?
+              ¿Qué es un árbol de merkle?
             </h1>
             <p className="col-lg-10 fs-4 text-white">
-              Un canal de pago, en inglés: <i>Payment Channel</i>, es una vía
-              para realizar numerosas transacciones de una criptomoneda con el
-              mínimo coste.{" "}
+              Un árbol Merkle, es una estructura de datos dividida en varias
+              capas que tiene como finalidad relacionar cada nodo con una raíz
+              única asociada a los mismos. Gracias a esta estructura única, los
+              árboles Merkle permiten relacionar una gran cantidad de datos en
+              único punto (Merkle Root) y permite que no sea necesario el
+              almacenaje de todos ellos para su posterior verificación.
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              La gran mayoría de las criptomonedas de segunda generación
-              disponen de una gran limitación a la hora de realizar numerosas
-              transacciones. No solo en tanto a la escalabilidad por segundo que
-              pueda disponer la blockchain, sino por{" "}
-              <strong>las altas comisiones existentes</strong> por cada
-              transacción. Especialmente dolorosas son en la red Ethereum, que,
-              a Septiembre del 2021, siguen siendo inasumibles para el envio de
-              micropagos o para realizar un canal constante de los mismos, como
-              por ejemplo, el envío mensual de nóminas a un número indeterminado
-              de trabajadores.
+              Para lograr esto, cada nodo debe estar identificado con un
+              identificador único (hash). Estos nodos iniciales, llamados nodos
+              hijos (hojas), se asocian luego con un nodo superior llamado nodo
+              padre (rama), parecido a la relación entre bloques que realiza la
+              blockchain. El nodo padre, tendrá un identificador único resultado
+              del hash de sus nodos hijos. Esta estructura se repite hasta
+              llegar al nodo raíz o raíz Merkle (Merkle Root), que con nuestro
+              ejemplo sobre la blockchain representaría al último bloque, cuya
+              impronta está asociada a todos los nodos del árbol.
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              Con un canal de pago se pueden realizar tantas transacciones como
-              se desee en <strong>segundo plano</strong>, reduciendo así las
-              transacciones reales en la blockchain principal{" "}
-              <strong>a únicamente dos</strong>. Volviendo al ejemplo de pago de
-              una nómina, el pagador puede ingresar un dinero total y realizar{" "}
-              <strong>tantos cheques a cobrar como empleados disponga</strong>.
-              Una única transacción para ingresar, y una única transacción por
-              empleado a cobrar.
+              De esta forma, la verificación y validación de esos datos, puede
+              pasar a ser muy eficiente, al tener que solo verificar el Merkle
+              Root en lugar de toda la estructura.
             </p>
             <p className="col-lg-10 fs-4 text-white">
               {" "}
-              <strong>Atención, </strong>Nuevo contrato deployado. Si usted
-              metió dinero en el anterior contrato no lo podrá utilizar. Por
-              suerte son tokens de testnet.
+              Este diseño fue creado por Ralph Merkle, en el año de 1979, con el
+              fin de agilizar el proceso de verificación de grandes cantidades
+              de datos.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
             <img
-              src="./assets/dibujo.png"
+              src="./assets/maxresdefault.jpg"
               width="300"
               alt="dibujo de canal de pago"
             />

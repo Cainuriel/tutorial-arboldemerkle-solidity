@@ -327,7 +327,7 @@ function App() {
       {/* Footer */}
       <footer
         className="text-center text-white my-3 container"
-        style={{ backgroundColor: "#0a4275" }}
+        style={{ backgroundColor: "rgb(128, 0, 70)" }}
       >
         <div className="p-4 pb-0">
           <section className="">
@@ -349,7 +349,7 @@ function App() {
           className="text-center p-3 container"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
         >
-          2021{" "}
+          2022{" "}
           <a
             className="text-white text-decoration-none"
             href="https://cainuriel.github.io/"

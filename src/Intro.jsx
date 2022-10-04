@@ -12,7 +12,7 @@ const Intro = () => {
       {
         chainId: "0x61",
         chainName: "BSCTESTNET",
-        rpcUrls: ["https://data-seed-prebsc-2-s3.binance.org:8545"],
+        rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545"],
         nativeCurrency: {
           name: "BINANCE COIN",
           symbol: "BNB",
@@ -142,7 +142,7 @@ const Intro = () => {
             </h2>
             <p className="col-lg-10 fs-4 text-white">
               Lo primero, deme su permiso para conectarme a su Metamask. La
-              conexión automática de su metamask por parte de una DAPP es una
+              conexión automática de su metamask por parte de una dAPP es una
               mala práctica. Téngalo en cuenta a la hora de crear la suya.{" "}
             </p>
             <p className="col-lg-10 fs-4 text-white">
@@ -153,8 +153,8 @@ const Intro = () => {
             </p>
             <p className="col-lg-10 fs-4 text-white">
               Si no tenía la Red, tampoco tendra BNBs de prueba para hacer el
-              tutorial. Apretando al boton azul usted podrá reclamar un BNB para
-              poder crear un cheque.
+              tutorial. Apretando al boton azul usted podrá reclamar algo de BNBs para
+              poder pagar las transacciones.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">

@@ -4,13 +4,15 @@ import { ethers } from "ethers";
 import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.json";
 import Swal from "sweetalert2";
 
-const InsertMoney = () => {
-  const [amount, setAmount] = useState("0.1");
+const Example = () => {
+  const [dataArray, setDataArray] = useState([]);
   const [balance, setBalance] = useState("");
   const payContract = "0x65D56f700BF136b32162Ea82dAa55516d688B1c6";
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
+
+  console.log("Array de datos ",  dataArray[1]);
 
   async function takeNetwork() {
     console.log("dentro de takeNetwork");
@@ -20,61 +22,61 @@ const InsertMoney = () => {
     setNetwork(network.name);
   }
 
-  async function moreMoney() {
-    if (typeof window.ethereum !== "undefined") {
-      if (network == BINANCENETWORK || doubleCheck == 1) {
-        const [account] = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-          payContract,
-          ReceiverPays.abi,
-          signer
-        );
-        let bnbAmount = ethers.utils.parseEther(amount).toString();
-        try {
-          const tx = await contract.moreMoney({ value: bnbAmount });
-          Swal.fire({
-            title: "Procesando el ingreso",
-            text: "Espere, y no actualice la página",
-            // icon: 'info',
-            showConfirmButton: false,
-            imageUrl:
-              "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
-            imageWidth: 100,
-            imageHeight: 100,
-            imageAlt: "Procesando el ingreso",
-          });
-          const Ok = await tx.wait();
-          if (Ok) {
-            Swal.fire({
-              title: `Se ha enviado ${amount} BNB al contrato ${payContract}`,
-              html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
-              icon: "success",
-              confirmButtonText: "Cerrar",
-            });
-          }
+  // async function moreMoney() {
+  //   if (typeof window.ethereum !== "undefined") {
+  //     if (network == BINANCENETWORK || doubleCheck == 1) {
+  //       const [account] = await window.ethereum.request({
+  //         method: "eth_requestAccounts",
+  //       });
+  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //       const signer = provider.getSigner();
+  //       const contract = new ethers.Contract(
+  //         payContract,
+  //         ReceiverPays.abi,
+  //         signer
+  //       );
+  //       let bnbAmount = ethers.utils.parseEther(amount).toString();
+  //       try {
+  //         const tx = await contract.moreMoney({ value: bnbAmount });
+  //         Swal.fire({
+  //           title: "Procesando el ingreso",
+  //           text: "Espere, y no actualice la página",
+  //           // icon: 'info',
+  //           showConfirmButton: false,
+  //           imageUrl:
+  //             "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+  //           imageWidth: 100,
+  //           imageHeight: 100,
+  //           imageAlt: "Procesando el ingreso",
+  //         });
+  //         const Ok = await tx.wait();
+  //         if (Ok) {
+  //           Swal.fire({
+  //             title: `Se ha enviado ${amount} BNB al contrato ${payContract}`,
+  //             html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
+  //             icon: "success",
+  //             confirmButtonText: "Cerrar",
+  //           });
+  //         }
 
-          getBalanceUser();
-        } catch (err) {
-          let mensajeError = err.message;
+  //         getBalanceUser();
+  //       } catch (err) {
+  //         let mensajeError = err.message;
 
-          Swal.fire({
-            title: "Ooops!",
-            text: `${mensajeError}`,
-            icon: "error",
-            confirmButtonText: "Cerrar",
-          });
-          console.log("Error: ", err);
-        }
-      } else {
-        setDoubleChek(1); // prevents double click in same function
-        isInNetwork();
-      }
-    }
-  }
+  //         Swal.fire({
+  //           title: "Ooops!",
+  //           text: `${mensajeError}`,
+  //           icon: "error",
+  //           confirmButtonText: "Cerrar",
+  //         });
+  //         console.log("Error: ", err);
+  //       }
+  //     } else {
+  //       setDoubleChek(1); // prevents double click in same function
+  //       isInNetwork();
+  //     }
+  //   }
+  // }
 
   async function isInNetwork() {
     console.log("en isInNetwork");
@@ -178,16 +180,15 @@ const InsertMoney = () => {
         <div className="row align-items-center g-lg-5 py-5">
           <div className="col-lg-7 text-center text-lg-start">
             <h2 className="display-4 fw-bold lh-1 mb-3 text-white">
-              Ingresar BNB al contrato
+              Ejemplo de árbol de merkle
             </h2>
             <p className="col-lg-10 fs-4 text-white">
-              El contrato está preparado para recibir BNBs de cualquier cuenta.
+              Para que compruebe su funcionamiento crearemos un array de datos.
+              Disponga a colocar unos datos separados por comas en el campo "Array de datos"
+              y nosotros crearemos el array por usted.
             </p>
-            <p className="col-lg-10 fs-4 text-white">
-              Se controla que nadie pueda gastar más de lo que ingrese. Por
-              defecto la cantidad es 0.1 BNB pero puede colocar la cantidad que
-              desee.
-            </p>
+            <p className="col-lg-10 fs-4 text-white"></p>A continuación,
+            apriete el botón "conseguir root", y se lo pintaremos en pantalla.
             <p className="col-lg-10 fs-4 text-white">
               Si no ve su saldo ingresado en el contrato apriete el botón verde.
             </p>
@@ -203,13 +204,13 @@ const InsertMoney = () => {
             <form className="p-4 p-md-5 border rounded-3 bg-light">
               <div className="form-floating mb-3">
                 <input
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value.replace(",", "."))}
+                  value={dataArray}
+                  onChange={(e) => setDataArray(e.target.value.split(","))}
                   type="text"
                   className="form-control"
                   id="amountToSend"
                 />
-                <label htmlFor="amountToSend">BNBs a ingresar</label>
+                <label htmlFor="amountToSend">Array de datos</label>
               </div>
               <button
                 id="btn-deposit"
@@ -241,4 +242,4 @@ const InsertMoney = () => {
   );
 };
 
-export default InsertMoney;
+export default Example;

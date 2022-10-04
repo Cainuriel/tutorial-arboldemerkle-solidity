@@ -3,7 +3,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 //import Signature from "./artifacts/contracts/Signature.sol/Signature.json";
 import Intro from "./Intro";
-import InsertMoney from "./InsertMoney";
+import Example from "./Example";
 import PayCheck from "./PayCheck.jsx";
 import { ethers } from "ethers";
 function App() {
@@ -82,7 +82,7 @@ function App() {
   return (
     <div className="App">
       <Intro />
-      <InsertMoney />
+      <Example />
       <div className="bg-dark container col-xl-10 col-xxl-8 px-4 py-5">
         <div className="row justify-content-md-center">
           <h3 className="text-white text-center col-lg-4">¿Qué desea hacer?</h3>

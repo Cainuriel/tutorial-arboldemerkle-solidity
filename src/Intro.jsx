@@ -126,7 +126,7 @@ const Intro = () => {
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
             <img
-              src="./assets/maxresdefault.jpg"
+              src="./assets/arbol-merkle.webp"
               width="300"
               alt="dibujo de canal de pago"
             />

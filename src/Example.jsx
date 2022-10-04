@@ -136,36 +136,36 @@ const Example = () => {
     [network]
   );
 
-  async function getBalanceUser() {
-    const [account] = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(payContract, ReceiverPays.abi, signer);
+  // async function getBalanceUser() {
+  //   const [account] = await window.ethereum.request({
+  //     method: "eth_requestAccounts",
+  //   });
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const signer = provider.getSigner();
+  //   const contract = new ethers.Contract(payContract, ReceiverPays.abi, signer);
 
-    try {
-      const contractUserBalance = await contract.recipientBalance(account);
-      let amount = ethers.utils.formatEther(contractUserBalance).toString();
-      let bnbAmount = Number.parseFloat(amount).toFixed(2);
-      setBalance(`Dispone de ${bnbAmount} BNB ingresados`);
-    } catch (err) {
-      let mensajeError = err.message;
-      Swal.fire({
-        title: "Ooops!",
-        text: `${mensajeError}`,
-        icon: "error",
-        confirmButtonText: "Cerrar",
-      });
-      console.log("Error: ", err);
-    }
-  }
+  //   try {
+  //     const contractUserBalance = await contract.recipientBalance(account);
+  //     let amount = ethers.utils.formatEther(contractUserBalance).toString();
+  //     let bnbAmount = Number.parseFloat(amount).toFixed(2);
+  //     setBalance(`Dispone de ${bnbAmount} BNB ingresados`);
+  //   } catch (err) {
+  //     let mensajeError = err.message;
+  //     Swal.fire({
+  //       title: "Ooops!",
+  //       text: `${mensajeError}`,
+  //       icon: "error",
+  //       confirmButtonText: "Cerrar",
+  //     });
+  //     console.log("Error: ", err);
+  //   }
+  // }
 
   // funcion que detecta los cambios de cuenta
   async function changeAccounts() {
     if (typeof window.ethereum !== "undefined") {
       window.ethereum.on("accountsChanged", async function () {
-        await getBalanceUser();
+       // await getBalanceUser();
       });
     }
   }
@@ -267,7 +267,7 @@ const Example = () => {
               <div className="form-floating mb-3">
                 <input
                   // value={dataArray}
-                  onChange={(e) => checkData(e.target.value)}
+                  onClick={(e) => checkData(e.target.value)}
                   type="text"
                   className="form-control"
                   id="dataSearch"

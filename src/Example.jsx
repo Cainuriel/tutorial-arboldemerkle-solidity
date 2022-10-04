@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import React from "react";
 import { ethers } from "ethers";
@@ -5,14 +6,16 @@ import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.js
 import Swal from "sweetalert2";
 
 const Example = () => {
-  const [dataArray, setDataArray] = useState([]);
-  const [balance, setBalance] = useState("");
+  const [dataArray, setDataArray] = useState("");
+  const [createArray, setCreateArray] = useState([]);
+  const [rootHook, setRootHook] = useState("");
+  const [treeHook, setTreeHook] = useState(null);
   const payContract = "0x65D56f700BF136b32162Ea82dAa55516d688B1c6";
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
-
-  console.log("Array de datos ",  dataArray[1]);
+  console.log("dato del input ", dataArray);
+  console.log("array de datos ", createArray);
 
   async function takeNetwork() {
     console.log("dentro de takeNetwork");
@@ -72,11 +75,29 @@ const Example = () => {
   //         console.log("Error: ", err);
   //       }
   //     } else {
-  //       setDoubleChek(1); // prevents double click in same function
+  //       setDoubleChek(1); // prevents double check
   //       isInNetwork();
   //     }
   //   }
   // }
+
+  function createRoot() {
+    const leaves = createArray.map((x) => keccak256(x));
+    const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
+    const buf2hex = (x) => "0x" + x.toString("hex");
+    const root = buf2hex(tree.getRoot());
+    console.log("Raiz del árbol", buf2hex(tree.getRoot()));
+    setRootHook(root);
+    setTreeHook(tree);
+  }
+
+  function checkData(event) {
+      console.log("dato que ha entrado para comprobar",  event);
+     const leaf = keccak256(event);
+     console.log("Hoja de tu direccion ", leaf);
+     const proof = treeHook.getProof(leaf).map((x) => buf2hex(x.data));
+     console.log("Prueba de merkel ", proof);
+    }
 
   async function isInNetwork() {
     console.log("en isInNetwork");
@@ -183,12 +204,16 @@ const Example = () => {
               Ejemplo de árbol de merkle
             </h2>
             <p className="col-lg-10 fs-4 text-white">
-              Para que compruebe su funcionamiento crearemos un array de datos.
-              Disponga a colocar unos datos separados por comas en el campo "Array de datos"
-              y nosotros crearemos el array por usted.
+              Para que compruebe su funcionamiento crearemos un array que
+              representará a su base de datos que desea verificar en un futuro.
+              Disponga entonces su colocación separados por comas en el campo
+              "Datos" y nosotros crearemos el array por usted. Cuidado con los
+              espacios si no desea que sean capturados.
             </p>
-            <p className="col-lg-10 fs-4 text-white"></p>A continuación,
-            apriete el botón "conseguir root", y se lo pintaremos en pantalla.
+            <p className="col-lg-10 fs-4 text-white">
+              A continuación, apriete el botón "conseguir raíz", y se la
+              pintaremos en pantalla.
+            </p>
             <p className="col-lg-10 fs-4 text-white">
               Si no ve su saldo ingresado en el contrato apriete el botón verde.
             </p>
@@ -205,33 +230,60 @@ const Example = () => {
               <div className="form-floating mb-3">
                 <input
                   value={dataArray}
-                  onChange={(e) => setDataArray(e.target.value.split(","))}
+                  onChange={(e) => setDataArray(e.target.value)}
                   type="text"
                   className="form-control"
                   id="amountToSend"
                 />
-                <label htmlFor="amountToSend">Array de datos</label>
+                <label htmlFor="amountToSend">Datos</label>
               </div>
               <button
                 id="btn-deposit"
-                onClick={() => moreMoney()}
+                onClick={() => setCreateArray([...createArray, dataArray])}
                 className="w-100 btn btn-lg btn-primary"
                 type="button"
               >
-                Ingresar
+                Introducir dato
               </button>
-              <hr className="my-4" />
               <button
-                id="btn-balance"
-                onClick={() => getBalanceUser()}
-                className="btn-success w-100 btn btn-lg"
+                id="btn-deposit"
+                onClick={() => createRoot()}
+                className="w-100 btn btn-lg btn-primary"
                 type="button"
               >
-                Comprobar su balance
+                Conseguir raíz
               </button>
               <hr className="my-4" />
-              <small id="balance" className="text-muted">
-                {balance}
+              <input
+                readOnly
+                value={rootHook}
+                type="text"
+                className="form-control"
+                id="root"
+              />
+              <label htmlFor="root">Raíz</label>
+              <hr className="my-4" />
+              <hr className="my-4" />
+              <div className="form-floating mb-3">
+                <input
+                  // value={dataArray}
+                  onChange={(e) => checkData(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  id="dataSearch"
+                />
+                <label htmlFor="dataSearch">Dato a buscar</label>
+                <button
+                  id="checkData"
+                  onClick={() => checkData()}
+                  className="btn-success w-100 btn btn-lg"
+                  type="button"
+                >
+                  Comprobar dato
+                </button>
+              </div>
+              <small id="isInBDD" className="text-muted">
+                True
               </small>
             </form>
             <div></div>

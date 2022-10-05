@@ -94,28 +94,28 @@ const Intro = () => {
               ¿Qué es un árbol de merkle?
             </h1>
             <p className="col-lg-10 fs-4 text-white">
-              Un árbol Merkle, es una estructura de datos dividida en varias
-              capas que tiene como finalidad relacionar cada nodo con una raíz
-              única asociada a los mismos. Gracias a esta estructura única, los
-              árboles Merkle permiten relacionar una gran cantidad de datos en
-              único punto (Merkle Root) y permite que no sea necesario el
-              almacenaje de todos ellos para su posterior verificación.
+              Un árbol Merkle es una estructura de datos dividida en varios
+              niveles relacionados como nodos con una raíz única representante
+              de todos ellos. Los árboles de Merkle permiten relacionar una gran
+              cantidad de datos en único punto (Merkle Root) y permite con ello
+              que no sea necesario el almacenaje de todos para una posterior
+              verificación.
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              Para lograr esto, cada nodo debe estar identificado con un
-              identificador único (hash). Estos nodos iniciales, llamados nodos
-              hijos (hojas), se asocian luego con un nodo superior llamado nodo
-              padre (rama), parecido a la relación entre bloques que realiza la
-              blockchain. El nodo padre, tendrá un identificador único resultado
-              del hash de sus nodos hijos. Esta estructura se repite hasta
-              llegar al nodo raíz o raíz Merkle (Merkle Root), que con nuestro
-              ejemplo sobre la blockchain representaría al último bloque, cuya
-              impronta está asociada a todos los nodos del árbol.
+              Para lograr esto, cada nodo debe estar identificado con un hash.
+              Estos nodos iniciales, llamados nodos hijos u hojas, se asocian
+              luego con un nodo superior llamado nodo padre o rama, que no es
+              más que otro hash generado con los hijos. El proceso se parece a
+              la endenación entre bloques que realiza una blockchain. Esta
+              estructura se repite hasta llegar a un nodo final llamado raíz o
+              raíz Merkle (Merkle Root), que con nuestro ejemplo sobre la
+              blockchain representaría al último bloque, cuya impronta de todos
+              los datos anteriores está asociada en el hash que hereda.
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              De esta forma, la verificación y validación de esos datos, puede
-              pasar a ser muy eficiente, al tener que solo verificar el Merkle
-              Root en lugar de toda la estructura.
+              De esta forma, la verificación y validación de unos datos puede
+              ser muy eficiente al tener que verificar solamente el hash root
+              junto al hash aportado del dato que se ha de comprobar.
             </p>
             <p className="col-lg-10 fs-4 text-white">
               {" "}
@@ -125,12 +125,17 @@ const Intro = () => {
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
-            <img
-              src="./assets/arbol-merkle.webp"
-              width="300"
-              alt="dibujo de canal de pago"
-            />
-            <div></div>
+            <a
+              href="./assets/dibujo.png"
+              target={"_blank"}
+              lang="dibujo de arbol de merkle"
+            >
+              <img
+                src="./assets/dibujo.png"
+                width="300"
+                alt="dibujo de canal de pago"
+              />
+            </a>
           </div>
         </div>
       </div>
@@ -153,8 +158,8 @@ const Intro = () => {
             </p>
             <p className="col-lg-10 fs-4 text-white">
               Si no tenía la Red, tampoco tendra BNBs de prueba para hacer el
-              tutorial. Apretando al boton azul usted podrá reclamar algo de BNBs para
-              poder pagar las transacciones.
+              tutorial. Apretando al boton azul usted podrá reclamar algo de
+              BNBs para poder pagar las transacciones.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">

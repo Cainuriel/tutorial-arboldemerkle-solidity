@@ -51,11 +51,12 @@ const Example = () => {
   ]);
   const [dataValue, setDataValue] = useState("");
   const [rootHook, setRootHook] = useState("");
-  //const [treeHook, setTreeHook] = useState(null);
   const [find, setFind] = useState(false)
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
+
+  console.log("data Value ", dataValue);
 
   async function takeNetwork() {
     console.log("dentro de takeNetwork");
@@ -136,26 +137,32 @@ const Example = () => {
     const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
     const buf2hex = (x) => "0x" + x.toString("hex");
     const root = buf2hex(tree.getRoot());
-    console.log("Raiz del árbol", buf2hex(tree.getRoot()));
-    const leaf = keccak256("0x322d9e3f049a845e9c8ed089b2bdf8f33c65a08f");
-    console.log("Hoja de tu direccion ", leaf);
-    const proof = tree.getProof(leaf).map((x) => buf2hex(x.data));
-    console.log("Prueba de merkel ", proof);;
+    console.log("Raiz del árbol", root);
     setRootHook(root);
   }
 
   function checkData() {
-      console.log("dato que ha entrado para comprobar",  dataValue);
-     const leaf = keccak256("0x3654322cFecCD60965A8b7866f50e55FE14EEBCC");
-    console.log("Hoja de tu direccion ", leaf);
-    const leaves = dataArray.map((x) => keccak256(x));
-    const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
-    const root = buf2hex(tree.getRoot());
-    console.log("Raiz del árbol", root);
-     const proof = tree.getProof(leaf).map((x) => buf2hex(x.data));
-    console.log("Prueba de merkel ", proof);
+    // Hash leaves
+    let leaves = dataArray.map((addr) => keccak256(addr));
 
-    }
+    // Create tree
+    let merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
+    let rootHash = merkleTree.getRoot().toString("hex");
+
+    // console.log("arbol de merkle", merkleTree.toString());
+    // console.log("raiz ", rootHash);
+
+    console.log("data value dentro de la funcion ", dataValue);
+    console.log("comparacion ", "0xA46f327d91282aFD4E99d79a8fD7Eac7A123dAF5" === dataValue);
+    let hashedAddress = keccak256(dataValue);
+
+
+    let proof = merkleTree.getHexProof(hashedAddress);
+    //console.log("Prueba ", proof);
+
+    let v = merkleTree.verify(proof, hashedAddress, rootHash);
+    setFind(v);
+  }
 
   async function isInNetwork() {
     console.log("en isInNetwork");
@@ -218,6 +225,7 @@ const Example = () => {
   //     console.log("Error: ", err);
   //   }
   // }
+
 
   // funcion que detecta los cambios de cuenta
   async function changeAccounts() {
@@ -360,7 +368,7 @@ const Example = () => {
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input
-                  // value={dataArray}
+                  value={dataValue}
                   onChange={(e) => setDataValue(e.target.value)}
                   type="text"
                   className="form-control"
@@ -369,7 +377,7 @@ const Example = () => {
                 <label htmlFor="dataSearch">Dato a buscar</label>
                 <button
                   id="checkData"
-                  onClick={(e) => checkData()}
+                  onClick={checkData}
                   className="btn-success w-100 btn btn-lg"
                   type="button"
                 >

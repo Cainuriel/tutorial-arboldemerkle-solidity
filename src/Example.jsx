@@ -52,7 +52,7 @@ const Example = () => {
   const [dataValue, setDataValue] = useState("");
   const [rootHook, setRootHook] = useState("");
   //const [treeHook, setTreeHook] = useState(null);
-  const [find, setFind] = useState(null)
+  const [find, setFind] = useState(false)
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
@@ -120,6 +120,16 @@ const Example = () => {
   //     }
   //   }
   // }
+
+  useEffect(() => {
+    if (find !== null) {
+      setTimeout(() => {
+        // eliminamos la animacion a los cuatro segundos.
+        setFind(null);
+      }, 4000);
+    }
+  }, [find])
+  
 
   function createRoot() {
     const leaves = dataArray.map((x) => keccak256(x));
@@ -367,15 +377,15 @@ const Example = () => {
                 </button>
               </div>
               <div id="isInBDD" className="text-muted">
-                {find && 
+                {find !== null && 
                 <div>
                 {find ?
                 <div>
-                <img src="./assets/find.gif" lang="its ok" />
+                <img src="./assets/find.gif" lang="dato encontrado" />
                 <small>Dato encontrado</small></div>
                 :
                 <div>
-                <img src="./assets/nofind.gif" lang="its ok" />
+                <img src="./assets/nofind.gif" lang="dato no encontrado" />
                 <small>Dato no encontrado</small></div>}
                 </div>}
               </div>

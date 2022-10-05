@@ -52,7 +52,7 @@ const Example = () => {
   const [dataValue, setDataValue] = useState("");
   const [rootHook, setRootHook] = useState("");
   //const [treeHook, setTreeHook] = useState(null);
-  const payContract = "0x65D56f700BF136b32162Ea82dAa55516d688B1c6";
+  const [find, setFind] = useState(null)
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
@@ -366,9 +366,19 @@ const Example = () => {
                   Comprobar dato
                 </button>
               </div>
-              <small id="isInBDD" className="text-muted">
-                True
-              </small>
+              <div id="isInBDD" className="text-muted">
+                {find && 
+                <div>
+                {find ?
+                <div>
+                <img src="./assets/find.gif" lang="its ok" />
+                <small>Dato encontrado</small></div>
+                :
+                <div>
+                <img src="./assets/nofind.gif" lang="its ok" />
+                <small>Dato no encontrado</small></div>}
+                </div>}
+              </div>
             </form>
             <div></div>
           </div>

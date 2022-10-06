@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { ethers } from "ethers";
-import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.json";
+//import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.json";
 import Swal from "sweetalert2";
 
 const Example = () => {

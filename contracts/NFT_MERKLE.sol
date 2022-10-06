@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract NFT_MERKLE is ERC721 {
     using Counters for Counters.Counter;
-    mapping(address => bytes32) rootUsers;
+    mapping(address => bytes32) public rootUsers;
 
     Counters.Counter private _tokenIdCounter;
 

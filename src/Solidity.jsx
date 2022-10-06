@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { ethers } from "ethers";
-import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.json";
+import NFT_MERKLE from "./artifacts/contracts/NFT_MERKLE.sol/NFT_MERKLE.json";
 import Swal from "sweetalert2";
 
 const Solidity = () => {
@@ -15,7 +15,7 @@ const Solidity = () => {
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
 
-  console.log("data Value ", dataValue);
+  //console.log("data Value ", dataValue);
   console.log("array ", dataArray);
 
   async function takeNetwork() {
@@ -26,61 +26,60 @@ const Solidity = () => {
     setNetwork(network.name);
   }
 
-  // async function moreMoney() {
-  //   if (typeof window.ethereum !== "undefined") {
-  //     if (network == BINANCENETWORK || doubleCheck == 1) {
-  //       const [account] = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       const contract = new ethers.Contract(
-  //         payContract,
-  //         ReceiverPays.abi,
-  //         signer
-  //       );
-  //       let bnbAmount = ethers.utils.parseEther(amount).toString();
-  //       try {
-  //         const tx = await contract.moreMoney({ value: bnbAmount });
-  //         Swal.fire({
-  //           title: "Procesando el ingreso",
-  //           text: "Espere, y no actualice la página",
-  //           // icon: 'info',
-  //           showConfirmButton: false,
-  //           imageUrl:
-  //             "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
-  //           imageWidth: 100,
-  //           imageHeight: 100,
-  //           imageAlt: "Procesando el ingreso",
-  //         });
-  //         const Ok = await tx.wait();
-  //         if (Ok) {
-  //           Swal.fire({
-  //             title: `Se ha enviado ${amount} BNB al contrato ${payContract}`,
-  //             html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
-  //             icon: "success",
-  //             confirmButtonText: "Cerrar",
-  //           });
-  //         }
+  async function setRootToContract() {
+    if (typeof window.ethereum !== "undefined") {
+      if (network == BINANCENETWORK || doubleCheck == 1) {
+        const [account] = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          nftContract,
+          NFT_MERKLE.abi,
+          signer
+        );
+        //let bnbAmount = ethers.utils.parseEther(amount).toString();
+        try {
+          const tx = await contract.rootUser(rootHook);
+          Swal.fire({
+            title: "Procesando el registro de su root",
+            text: "Espere, y no actualice la página",
+            // icon: 'info',
+            showConfirmButton: false,
+            imageUrl:
+              "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+            imageWidth: 100,
+            imageHeight: 100,
+            imageAlt: "Procesando el ingreso",
+          });
+          const Ok = await tx.wait();
+          if (Ok) {
+            Swal.fire({
+              title: `Se ha enviado la ${rootHook} al contrato ${nftContract}`,
+              html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
+              icon: "success",
+              confirmButtonText: "Cerrar",
+            });
+          }
 
-  //         getBalanceUser();
-  //       } catch (err) {
-  //         let mensajeError = err.message;
+        } catch (err) {
+          let mensajeError = err.message;
 
-  //         Swal.fire({
-  //           title: "Ooops!",
-  //           text: `${mensajeError}`,
-  //           icon: "error",
-  //           confirmButtonText: "Cerrar",
-  //         });
-  //         console.log("Error: ", err);
-  //       }
-  //     } else {
-  //       setDoubleChek(1); // prevents double check
-  //       isInNetwork();
-  //     }
-  //   }
-  // }
+          Swal.fire({
+            title: "Ooops!",
+            text: `${mensajeError}`,
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
+          console.log("Error: ", err);
+        }
+      } else {
+        setDoubleChek(1); // prevents double check
+        
+      }
+    }
+  }
 
   useEffect(() => {
     if (find !== null) {
@@ -100,7 +99,7 @@ const Solidity = () => {
     setRootHook(root);
   }
 
-  function checkData() {
+  async function createProof() {
     const buf2hex = (x) => "0x" + x.toString("hex");
     // creamos las hojas
     const leaves = dataArray.map((addr) => keccak256(addr));
@@ -114,9 +113,8 @@ const Solidity = () => {
     console.log("hoja del dato ", buf2hex(hashedAddress));
     const proof = merkleTree.getHexProof(hashedAddress);
     console.log("Ruta en el arbol, prueba de existencia: ", proof);
-    // final verification
-    const v = merkleTree.verify(proof, hashedAddress, rootHash);
-    setFind(v);
+    return proof;
+
   }
 
   async function isInNetwork() {
@@ -156,30 +154,51 @@ const Solidity = () => {
     [network]
   );
 
-  // async function getBalanceUser() {
-  //   const [account] = await window.ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   const contract = new ethers.Contract(payContract, ReceiverPays.abi, signer);
+  async function buyNFT() {
+    
+    const createProof = await createProof();
 
-  //   try {
-  //     const contractUserBalance = await contract.recipientBalance(account);
-  //     let amount = ethers.utils.formatEther(contractUserBalance).toString();
-  //     let bnbAmount = Number.parseFloat(amount).toFixed(2);
-  //     setBalance(`Dispone de ${bnbAmount} BNB ingresados`);
-  //   } catch (err) {
-  //     let mensajeError = err.message;
-  //     Swal.fire({
-  //       title: "Ooops!",
-  //       text: `${mensajeError}`,
-  //       icon: "error",
-  //       confirmButtonText: "Cerrar",
-  //     });
-  //     console.log("Error: ", err);
-  //   }
-  // }
+    const [account] = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(nftContract, NFT_MERKLE.abi, signer);
+
+    try {
+      const tx = await contract.safeMint(createProof);
+      Swal.fire({
+        title: "Procesando su compra de NFTs",
+        text: "Espere, y no actualice la página",
+        // icon: 'info',
+        showConfirmButton: false,
+        imageUrl:
+          "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+        imageWidth: 100,
+        imageHeight: 100,
+        imageAlt: "Procesando su compra",
+      });
+      const Ok = await tx.wait();
+      if (Ok) {
+        Swal.fire({
+          title: `Se ha enviado un  NFT a la cuenta ${signer}`,
+          html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
+          icon: "success",
+          confirmButtonText: "Cerrar",
+        });
+      }
+    } catch (err) {
+      let mensajeError = err.message;
+
+      Swal.fire({
+        title: "Ooops!",
+        text: `${mensajeError}`,
+        icon: "error",
+        confirmButtonText: "Cerrar",
+      });
+      console.log("Error: ", err);
+    }
+  }
 
   // funcion que detecta los cambios de cuenta
   async function changeAccounts() {
@@ -261,12 +280,12 @@ const Solidity = () => {
               del mismo y guárdela.
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              A continuación tendrá que registrar su raíz en el contrato de NFTs. 
-              Como éste es un contrato con fines educativos en el se permite tantos
-              registros como usuarios interactuen con el. Evidentemente esto no es 
-              funcional para un contrato que pretende verificar una lista segura. 
-              Por lógica tendría que estar solo accesible para el owner o cuenta con role
-              admin. 
+              A continuación tendrá que registrar su raíz en el contrato de
+              NFTs. Como éste es un contrato con fines educativos en el se
+              permite tantos registros como usuarios interactuen con el.
+              Evidentemente esto no es funcional para un contrato que pretende
+              verificar una lista segura. Por lógica tendría que estar solo
+              accesible para el owner o cuenta con role admin.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
@@ -311,7 +330,7 @@ const Solidity = () => {
               />
               <label htmlFor="root">Raíz</label>
               <hr className="my-4" />
-              <div id="isInBDD" className="text-muted">
+              {/* <div id="isInBDD" className="text-muted">
                 {find !== null && (
                   <div>
                     {find ? (
@@ -330,7 +349,7 @@ const Solidity = () => {
                     )}
                   </div>
                 )}
-              </div>
+              </div> */}
             </form>
             <div style={{ height: "300px" }}></div>
             <form className="p-4 p-md-5 border rounded-3 bg-light">
@@ -338,7 +357,7 @@ const Solidity = () => {
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input
-                  // value={dataValue}
+                   value={rootHook}
                   onChange={(e) => setInputRoot(e.target.value)}
                   type="text"
                   className="form-control"
@@ -347,7 +366,7 @@ const Solidity = () => {
                 <label htmlFor="inputroot">Introduzca Root</label>
 
                 <button
-                  id="checkData"
+                  id="registerRoot"
                   onClick={() => setRootToContract()}
                   className="btn-success w-100 btn btn-lg"
                   type="button"
@@ -364,35 +383,15 @@ const Solidity = () => {
                 Conseguir raíz
               </button>
               <hr className="my-4" />
-              <input
-                readOnly
-                value={rootHook}
-                type="text"
-                className="form-control"
-                id="root"
-              />
-              <label htmlFor="root">Raíz</label>
+              <button
+                id="btn-buy"
+                onClick={() => buyNFT()}
+                className="w-100 btn btn-lg btn-danger"
+                type="button"
+              >
+                Comprar NFT
+              </button>
               <hr className="my-4" />
-              <div id="isInBDD" className="text-muted">
-                {find !== null && (
-                  <div>
-                    {find ? (
-                      <div>
-                        <img src="./assets/find.gif" lang="dato encontrado" />
-                        <small>Dato encontrado</small>
-                      </div>
-                    ) : (
-                      <div>
-                        <img
-                          src="./assets/nofind.gif"
-                          lang="dato no encontrado"
-                        />
-                        <small>Dato no encontrado</small>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
             </form>
           </div>
         </div>

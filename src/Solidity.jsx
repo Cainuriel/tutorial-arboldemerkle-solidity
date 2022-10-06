@@ -13,7 +13,8 @@ const Solidity = () => {
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
 
-  // console.log("data Value ", dataValue);
+  console.log("data Value ", dataValue);
+  console.log("array ", dataArray);
 
   async function takeNetwork() {
     console.log("dentro de takeNetwork");
@@ -221,23 +222,41 @@ const Solidity = () => {
               Ejemplo con Solidity: White List de compra de NFTs
             </h2>
             <p className="col-lg-12 fs-4 text-white">
-              Para que compruebe su funcionamiento vamos a comprobar si existe
-              un dato de los siguientes con el panel que encontrará a su
-              izquierda del texto:
+              Generalmente, la generación de una white list para compra o acceso
+              a un proyecto suele ser recabada por medios tradicionales
+              offChain. Esto es un quebradero de cabeza para los desarrolladores
+              web3. Ya que nosotros consideramos más seguro y eficiente un
+              registro directo sobre el contrato. Es decir, que cada usuario que
+              desee estar en la whitelist pase por la dApp y se registre el
+              mismo en el contrato. Con ello evitamos errores o reclamaciones.
+              Pero una cosa es como se debería hacer y otra cosa es como se
+              "suele hacer". Aplicando el principio de que "aquí, se ha hecho
+              siempre así" los desarrolladores blockchain no tenemos otra que
+              saber conectar con "las viejas prácticas".
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Coloque un dato de la lista vigilando no dejar ningún espacio.
-              Seguidamente apriete el botón "Comprobar dato". Haga lo propio
-              ahora con un dato ajeno a la lista compartida.
+              Una de las soluciones para no tener que registrar en bruto una
+              base de datos de cuentas priviliegiadas es con el uso de éste
+              árbol de merkle. Recabada las direcciones de la forma tradicional,
+              se registrarán en un array para generar la correspondiente root. A
+              partir de ahí, el contrato verificará la dirección que le llame
+              con la prueba de merkle correspondiente.
+              <p className="col-lg-12 fs-4 text-white">
+                Vamos a verlo detenidamente.
+              </p>
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Las búsquedas se generarán y si encuentra el dato aparecerá un
-              check, en caso contrario le avisará de su inexistencia. Si quiere
-              ver la prueba del árbol de merkle abra la consola javascript. Esta
-              prueba es "la ruta de hashes" correcta empezando por la hoja más
-              baja: su dato compartido. Si al realizar la comprobación su dato
-              no genera un hash existente todos los demás fallarán en cascada
-              devolviendo un array vacio.
+              Primeramente generaremos un array de direcciones o de cualquier
+              otro tipo de dato que usted desee registrar. Introduzca uno a uno
+              estos datos en el campo "Introduzca dato" y apriete "Registrar
+              dato" tantas veces como datos desee registrarse. Ellos crearán el
+              array con el que generará su base de datos a verificar.
+            </p>
+            <p className="col-lg-12 fs-4 text-white">
+              Primeramente generaremos un array de direcciones o de cualquier
+              otro tipo de dato que usted desee registrar. Mi contrato
+              registrará primermanete una root por cuenta ya que está abierto a
+              todo el mundo por fines divulgativos.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
@@ -260,6 +279,28 @@ const Solidity = () => {
               >
                 Introducir dato
               </button> */}
+
+              <hr className="my-4" />
+              <div className="form-floating mb-3">
+                <input
+                  // value={dataValue}
+                  onChange={(e) => setDataValue(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  id="dataSearch"
+                />
+                <label htmlFor="dataSearch">Introduzca datos</label>
+                <button
+                  id="checkData"
+                  onClick={() => {
+                    return setDataArray([...dataArray, dataValue]);
+                  }}
+                  className="btn-success w-100 btn btn-lg"
+                  type="button"
+                >
+                  Registrar dato
+                </button>
+              </div>
               <button
                 id="btn-deposit"
                 onClick={() => createRoot()}
@@ -278,25 +319,6 @@ const Solidity = () => {
               />
               <label htmlFor="root">Raíz</label>
               <hr className="my-4" />
-              <hr className="my-4" />
-              <div className="form-floating mb-3">
-                <input
-                  value={dataValue}
-                  onChange={(e) => setDataValue(e.target.value)}
-                  type="text"
-                  className="form-control"
-                  id="dataSearch"
-                />
-                <label htmlFor="dataSearch">Dato a buscar</label>
-                <button
-                  id="checkData"
-                  onClick={checkData}
-                  className="btn-success w-100 btn btn-lg"
-                  type="button"
-                >
-                  Comprobar dato
-                </button>
-              </div>
               <div id="isInBDD" className="text-muted">
                 {find !== null && (
                   <div>

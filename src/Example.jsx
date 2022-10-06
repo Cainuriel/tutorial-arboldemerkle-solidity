@@ -328,42 +328,6 @@ const Example = () => {
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
             <form className="p-4 p-md-5 border rounded-3 bg-light">
-              <div className="form-floating mb-3">
-                {/* <input
-                  value={dataArray}
-                  onChange={(e) => setDataArray(e.target.value)}
-                  type="text"
-                  className="form-control"
-                  id="amountToSend"
-                />
-                <label htmlFor="amountToSend">Datos</label> */}
-              </div>
-              {/* <button
-                id="btn-deposit"
-                onClick={() => setCreateArray([...createArray, dataArray])}
-                className="w-100 btn btn-lg btn-primary"
-                type="button"
-              >
-                Introducir dato
-              </button> */}
-              <button
-                id="btn-deposit"
-                onClick={() => createRoot()}
-                className="w-100 btn btn-lg btn-primary"
-                type="button"
-              >
-                Conseguir raíz
-              </button>
-              <hr className="my-4" />
-              <input
-                readOnly
-                value={rootHook}
-                type="text"
-                className="form-control"
-                id="root"
-              />
-              <label htmlFor="root">Raíz</label>
-              <hr className="my-4" />
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input

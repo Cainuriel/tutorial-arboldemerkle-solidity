@@ -9,6 +9,7 @@ const Solidity = () => {
   const [dataValue, setDataValue] = useState("");
   const [rootHook, setRootHook] = useState("");
   const [find, setFind] = useState(false);
+  const [inputRoot, setInputRoot] = useState("");
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
@@ -241,45 +242,35 @@ const Solidity = () => {
               se registrarán en un array para generar la correspondiente root. A
               partir de ahí, el contrato verificará la dirección que le llame
               con la prueba de merkle correspondiente.
-              <p className="col-lg-12 fs-4 text-white">
-                Vamos a verlo detenidamente.
-              </p>
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Primeramente generaremos un array de direcciones o de cualquier
-              otro tipo de dato que usted desee registrar. Introduzca uno a uno
-              estos datos en el campo "Introduzca dato" y apriete "Registrar
-              dato" tantas veces como datos desee registrarse. Ellos crearán el
-              array con el que generará su base de datos a verificar.
+              Vamos a verlo detenidamente.
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Primeramente generaremos un array de direcciones o de cualquier
-              otro tipo de dato que usted desee registrar. Mi contrato
-              registrará primermanete una root por cuenta ya que está abierto a
-              todo el mundo por fines divulgativos.
+              Primeramente generaremos un array de direcciones en las que ha de
+              introducir alguna que usted posea. Introduzca una a una estos
+              datos en el campo "Introduzca dirección" del panel "Registro
+              Array" y apriete "Registrar dato" tantas veces como direcciones
+              desee registrar. Ellos crearán el array con el que generará su
+              base de datos a verificar.
+            </p>
+            <p className="col-lg-12 fs-4 text-white">
+              Cuando considere que ha introducido todos los datos que desee
+              verificar apriete el botón de "Conseguir raíz". Aparecerá abajo
+              del mismo y guárdela.
+            </p>
+            <p className="col-lg-12 fs-4 text-white">
+              A continuación tendrá que registrar su raíz en el contrato de NFTs. 
+              Como éste es un contrato con fines educativos en el se permite tantos
+              registros como usuarios interactuen con el. Evidentemente esto no es 
+              funcional para un contrato que pretende verificar una lista segura. 
+              Por lógica tendría que estar solo accesible para el owner o cuenta con role
+              admin. 
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
             <form className="p-4 p-md-5 border rounded-3 bg-light">
-              <div className="form-floating mb-3">
-                {/* <input
-                  value={dataArray}
-                  onChange={(e) => setDataArray(e.target.value)}
-                  type="text"
-                  className="form-control"
-                  id="amountToSend"
-                />
-                <label htmlFor="amountToSend">Datos</label> */}
-              </div>
-              {/* <button
-                id="btn-deposit"
-                onClick={() => setCreateArray([...createArray, dataArray])}
-                className="w-100 btn btn-lg btn-primary"
-                type="button"
-              >
-                Introducir dato
-              </button> */}
-
+              <h2>Registro Array</h2>
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input
@@ -289,7 +280,7 @@ const Solidity = () => {
                   className="form-control"
                   id="dataSearch"
                 />
-                <label htmlFor="dataSearch">Introduzca datos</label>
+                <label htmlFor="dataSearch">Introduzca dato</label>
                 <button
                   id="checkData"
                   onClick={() => {
@@ -340,7 +331,68 @@ const Solidity = () => {
                 )}
               </div>
             </form>
-            <div></div>
+            <div style={{ height: "300px" }}></div>
+            <form className="p-4 p-md-5 border rounded-3 bg-light">
+              <h2>Contrato ERC721</h2>
+              <hr className="my-4" />
+              <div className="form-floating mb-3">
+                <input
+                  // value={dataValue}
+                  onChange={(e) => setInputRoot(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  id="inputroot"
+                />
+                <label htmlFor="inputroot">Introduzca Root</label>
+
+                <button
+                  id="checkData"
+                  onClick={() => setRootToContract()}
+                  className="btn-success w-100 btn btn-lg"
+                  type="button"
+                >
+                  Registrar Root
+                </button>
+              </div>
+              <button
+                id="btn-deposit"
+                onClick={() => createRoot()}
+                className="w-100 btn btn-lg btn-primary"
+                type="button"
+              >
+                Conseguir raíz
+              </button>
+              <hr className="my-4" />
+              <input
+                readOnly
+                value={rootHook}
+                type="text"
+                className="form-control"
+                id="root"
+              />
+              <label htmlFor="root">Raíz</label>
+              <hr className="my-4" />
+              <div id="isInBDD" className="text-muted">
+                {find !== null && (
+                  <div>
+                    {find ? (
+                      <div>
+                        <img src="./assets/find.gif" lang="dato encontrado" />
+                        <small>Dato encontrado</small>
+                      </div>
+                    ) : (
+                      <div>
+                        <img
+                          src="./assets/nofind.gif"
+                          lang="dato no encontrado"
+                        />
+                        <small>Dato no encontrado</small>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </div>

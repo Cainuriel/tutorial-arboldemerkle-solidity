@@ -1,30 +1,14 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
 
-  // We get the contract to deploy
-  const Signature = await hre.ethers.getContractFactory("Signature");
-  const signature = await Signature.deploy();
+  const NFT_MERKLE = await hre.ethers.getContractFactory("NFT_MERKLE");
+  const nft_MERKLE = await NFT_MERKLE.deploy();
 
-  const ReceiverPays = await hre.ethers.getContractFactory("ReceiverPays");
-  const receiverPays = await ReceiverPays.deploy();
+  await nft_MERKLE.deployed();
+ 
+  console.log("NFT_MERKLE deployed to:", nft_MERKLE.address);
 
-  await signature.deployed();
-  await receiverPays.deployed();
-
-  console.log("Signature deployed to:", signature.address);
-  console.log("ReceiverPays deployed to:", receiverPays.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

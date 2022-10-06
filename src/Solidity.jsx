@@ -11,6 +11,7 @@ const Solidity = () => {
   const [find, setFind] = useState(false);
   const [inputRoot, setInputRoot] = useState("");
   const [network, setNetwork] = useState("no-net");
+  const nftContract = "0xfF53f8B4250e74d48f59F9c22C85C2781611C178";
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
 

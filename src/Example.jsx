@@ -50,77 +50,19 @@ const Example = () => {
     "0x322d9e3F049a845e9C8ED089B2Bdf8F33c65a08F",
   ]);
   const [dataValue, setDataValue] = useState("");
-  const [rootHook, setRootHook] = useState("");
-  const [find, setFind] = useState(false)
+  const [find, setFind] = useState(null)
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
-  const [doubleCheck, setDoubleChek] = useState(0);
 
  // console.log("data Value ", dataValue);
 
   async function takeNetwork() {
-    console.log("dentro de takeNetwork");
+    //console.log("dentro de takeNetwork");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const network = await provider.getNetwork();
     console.log("network", network.name);
     setNetwork(network.name);
   }
-
-  // async function moreMoney() {
-  //   if (typeof window.ethereum !== "undefined") {
-  //     if (network == BINANCENETWORK || doubleCheck == 1) {
-  //       const [account] = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       const contract = new ethers.Contract(
-  //         payContract,
-  //         ReceiverPays.abi,
-  //         signer
-  //       );
-  //       let bnbAmount = ethers.utils.parseEther(amount).toString();
-  //       try {
-  //         const tx = await contract.moreMoney({ value: bnbAmount });
-  //         Swal.fire({
-  //           title: "Procesando el ingreso",
-  //           text: "Espere, y no actualice la página",
-  //           // icon: 'info',
-  //           showConfirmButton: false,
-  //           imageUrl:
-  //             "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
-  //           imageWidth: 100,
-  //           imageHeight: 100,
-  //           imageAlt: "Procesando el ingreso",
-  //         });
-  //         const Ok = await tx.wait();
-  //         if (Ok) {
-  //           Swal.fire({
-  //             title: `Se ha enviado ${amount} BNB al contrato ${payContract}`,
-  //             html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
-  //             icon: "success",
-  //             confirmButtonText: "Cerrar",
-  //           });
-  //         }
-
-  //         getBalanceUser();
-  //       } catch (err) {
-  //         let mensajeError = err.message;
-
-  //         Swal.fire({
-  //           title: "Ooops!",
-  //           text: `${mensajeError}`,
-  //           icon: "error",
-  //           confirmButtonText: "Cerrar",
-  //         });
-  //         console.log("Error: ", err);
-  //       }
-  //     } else {
-  //       setDoubleChek(1); // prevents double check
-  //       isInNetwork();
-  //     }
-  //   }
-  // }
 
   useEffect(() => {
     if (find !== null) {
@@ -132,15 +74,6 @@ const Example = () => {
   }, [find])
   
 
-  function createRoot() {
-    const leaves = dataArray.map((x) => keccak256(x));
-    const tree = new MerkleTree(leaves, keccak256, { sortPairs: true });
-    const buf2hex = (x) => "0x" + x.toString("hex");
-    const root = buf2hex(tree.getRoot());
-    console.log("Raiz del árbol", root);
-    setRootHook(root);
-  }
-
   function checkData() {
     const buf2hex = (x) => "0x" + x.toString("hex");
     // creamos las hojas
@@ -148,7 +81,7 @@ const Example = () => {
     // creamos el arbol
     const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true });
     const rootHash = merkleTree.getRoot().toString("hex");
-    // console.log("arbol de merkle", merkleTree.toString());
+     console.log("arbol de merkle", merkleTree.toString());
     // console.log("raiz ", rootHash);
     // creamos el hash del datao ha comprobar
     const hashedAddress = keccak256(dataValue);
@@ -161,8 +94,8 @@ const Example = () => {
   }
 
   async function isInNetwork() {
-    console.log("en isInNetwork");
-    if (network !== "no-net" || network === BINANCENETWORK) {
+    //console.log("en isInNetwork", network);
+    if (network !== "no-net" && network !== BINANCENETWORK) {
       Swal.fire({
         title: "red",
         //text: `Cambia a BSC si la tienes o sigue el siguiente tutorial para configurarla`,
@@ -185,59 +118,23 @@ const Example = () => {
         }
       });
     } else {
-      moreMoney();
+    takeNetwork();
     }
   }
 
   useEffect(
     function () {
-      takeNetwork();
-      changeAccounts();
+      isInNetwork();
     },
     [network]
   );
-
-  // async function getBalanceUser() {
-  //   const [account] = await window.ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   const contract = new ethers.Contract(payContract, ReceiverPays.abi, signer);
-
-  //   try {
-  //     const contractUserBalance = await contract.recipientBalance(account);
-  //     let amount = ethers.utils.formatEther(contractUserBalance).toString();
-  //     let bnbAmount = Number.parseFloat(amount).toFixed(2);
-  //     setBalance(`Dispone de ${bnbAmount} BNB ingresados`);
-  //   } catch (err) {
-  //     let mensajeError = err.message;
-  //     Swal.fire({
-  //       title: "Ooops!",
-  //       text: `${mensajeError}`,
-  //       icon: "error",
-  //       confirmButtonText: "Cerrar",
-  //     });
-  //     console.log("Error: ", err);
-  //   }
-  // }
-
-
-  // funcion que detecta los cambios de cuenta
-  async function changeAccounts() {
-    if (typeof window.ethereum !== "undefined") {
-      window.ethereum.on("accountsChanged", async function () {
-       // await getBalanceUser();
-      });
-    }
-  }
 
   async function addNetwork() {
     let networkData = [
       {
         chainId: "0x61",
         chainName: "BSCTESTNET",
-        rpcUrls: ["https://data-seed-prebsc-2-s3.binance.org:8545"],
+        rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545"],
         nativeCurrency: {
           name: "BINANCE COIN",
           symbol: "BNB",

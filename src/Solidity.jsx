@@ -8,7 +8,7 @@ const Solidity = () => {
   const [dataArray, setDataArray] = useState([]);
   const [dataValue, setDataValue] = useState("");
   const [rootHook, setRootHook] = useState("");
-  const [find, setFind] = useState(false);
+  const [buyNFTOk, setBuyNFTOk] = useState(false);
   const [inputRoot, setInputRoot] = useState("");
   const [network, setNetwork] = useState("no-net");
   const nftContract = "0xfF53f8B4250e74d48f59F9c22C85C2781611C178";
@@ -16,15 +16,7 @@ const Solidity = () => {
   const [doubleCheck, setDoubleChek] = useState(0);
 
   //console.log("data Value ", dataValue);
-  console.log("array ", dataArray);
-
-  async function takeNetwork() {
-    console.log("dentro de takeNetwork");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const network = await provider.getNetwork();
-    console.log("network", network.name);
-    setNetwork(network.name);
-  }
+  //console.log("array ", dataArray);
 
   async function setRootToContract() {
     if (typeof window.ethereum !== "undefined") {
@@ -56,7 +48,7 @@ const Solidity = () => {
           const Ok = await tx.wait();
           if (Ok) {
             Swal.fire({
-              title: `Se ha enviado la ${rootHook} al contrato ${nftContract}`,
+              title: `Se ha enviado el hash: ${rootHook} de su root al contrato ${nftContract}`,
               html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
               icon: "success",
               confirmButtonText: "Cerrar",
@@ -81,14 +73,6 @@ const Solidity = () => {
     }
   }
 
-  useEffect(() => {
-    if (find !== null) {
-      setTimeout(() => {
-        // eliminamos la animacion a los cuatro segundos.
-        setFind(null);
-      }, 4000);
-    }
-  }, [find]);
 
   function createRoot() {
     const leaves = dataArray.map((x) => keccak256(x));
@@ -117,42 +101,6 @@ const Solidity = () => {
 
   }
 
-  async function isInNetwork() {
-    console.log("en isInNetwork");
-    if (network !== "no-net" || network === BINANCENETWORK) {
-      Swal.fire({
-        title: "red",
-        //text: `Cambia a BSC si la tienes o sigue el siguiente tutorial para configurarla`,
-        text:
-          "Estás en la red " +
-          network +
-          ", has de cambiar a la red " +
-          BINANCENETWORK,
-        confirmButtonText: "Cambiar o instalar red BNB de pruebas",
-        //imageUrl: 'https://i2.wp.com/criptotendencia.com/wp-content/uploads/2020/04/binance-smart-chain.jpg?fit=1200%2C674&ssl=1',
-        imageUrl: "https://cryptodaily.io/wp-content/uploads/2021/07/p-2.png",
-        imageWidth: 300,
-
-        imageAlt: "Red Binance Smart Chain",
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          addNetwork();
-          //window.open('https://academy.binance.com/es/articles/connecting-metamask-to-binance-smart-chain', '_blank');
-        }
-      });
-    } else {
-      moreMoney();
-    }
-  }
-
-  useEffect(
-    function () {
-      takeNetwork();
-      changeAccounts();
-    },
-    [network]
-  );
 
   async function buyNFT(createProof) {
    
@@ -186,6 +134,7 @@ const Solidity = () => {
           icon: "success",
           confirmButtonText: "Cerrar",
         });
+        setBuyNFTOk(true);
       }
     } catch (err) {
       let mensajeError = err.reason;
@@ -200,45 +149,13 @@ const Solidity = () => {
     }
   }
 
-  // funcion que detecta los cambios de cuenta
-  async function changeAccounts() {
-    if (typeof window.ethereum !== "undefined") {
-      window.ethereum.on("accountsChanged", async function () {
-        // await getBalanceUser();
-      });
-    }
-  }
-
-  async function addNetwork() {
-    let networkData = [
-      {
-        chainId: "0x61",
-        chainName: "BSCTESTNET",
-        rpcUrls: ["https://data-seed-prebsc-2-s3.binance.org:8545"],
-        nativeCurrency: {
-          name: "BINANCE COIN",
-          symbol: "BNB",
-          decimals: 18,
-        },
-        blockExplorerUrls: ["https://testnet.bscscan.com/"],
-      },
-    ];
-
-    // agregar red o cambiar red
-    return window.ethereum
-      .request({
-        method: "wallet_addEthereumChain",
-        params: networkData,
-      })
-      .then(takeNetwork());
-  }
-
   return (
     <div className="App">
       <div className="b-example-divider"></div>
       <div className="bg-dark container col-xl-10 col-xxl-8 px-4 py-5">
         <div className="row align-items-center g-lg-5 py-5">
-          <div className="col-lg-7 text-center text-lg-start">
+          { !buyNFTOk &&
+            <div className="col-lg-7 text-center text-lg-start">
             <h2 className="display-4 fw-bold lh-1 mb-3 text-white">
               Ejemplo con Solidity: White List de compra de NFTs
             </h2>
@@ -246,7 +163,7 @@ const Solidity = () => {
               Generalmente, la generación de una white list para compra o acceso
               a un proyecto suele ser recabada por medios tradicionales
               offChain. Esto es un quebradero de cabeza para los desarrolladores
-              web3. Ya que nosotros consideramos más seguro y eficiente un
+              Web3. Ya que nosotros consideramos más seguro y eficiente un
               registro directo sobre el contrato. Es decir, que cada usuario que
               desee estar en la whitelist pase por la dApp y se registre el
               mismo en el contrato. Con ello evitamos errores o reclamaciones.
@@ -271,13 +188,15 @@ const Solidity = () => {
               introducir alguna que usted posea. Introduzca una a una estos
               datos en el campo "Introduzca dirección" del panel "Registro
               Array" y apriete "Registrar dato" tantas veces como direcciones
-              desee registrar. Ellos crearán el array con el que generará su
-              base de datos a verificar.
+              desee registrar. Así se creará el array con el que generará su
+                base de datos a verificar. Recuerde que si actualiza la página los
+                datos registrados se perderán.
             </p>
             <p className="col-lg-12 fs-4 text-white">
               Cuando considere que ha introducido todos los datos que desee
-              verificar apriete el botón de "Conseguir raíz". Aparecerá abajo
-              del mismo y guárdela.
+              verificar apriete el botón de "Conseguir raíz". Aparecerá entonces
+              en el campo "Root" del siguiente panel de interración con el
+              contrato
             </p>
             <p className="col-lg-12 fs-4 text-white">
               A continuación tendrá que registrar su raíz en el contrato de
@@ -287,7 +206,14 @@ const Solidity = () => {
               verificar una lista segura. Por lógica tendría que estar solo
               accesible para el owner o cuenta con role admin.
             </p>
-          </div>
+            <p className="col-lg-12 fs-4 text-white">
+              Hecho esto intente comprar con una cuenta que haya registado en su
+              base de datos. Si la dirección estaba en los datos introducidos por
+              usted le permitirá la compra. En caso contrario le rechazará la transacción.
+
+            </p>
+            </div>
+          }
           <div className="col-md-10 mx-auto col-lg-5">
             <form className="p-4 p-md-5 border rounded-3 bg-light">
               <h2>Registro Array</h2>
@@ -300,7 +226,7 @@ const Solidity = () => {
                   className="form-control"
                   id="dataSearch"
                 />
-                <label htmlFor="dataSearch">Introduzca dato</label>
+                <label htmlFor="dataSearch">Introduzca dirección</label>
                 <button
                   id="checkData"
                   onClick={() => {
@@ -330,26 +256,6 @@ const Solidity = () => {
               />
               <label htmlFor="root">Raíz</label>
               <hr className="my-4" />
-              {/* <div id="isInBDD" className="text-muted">
-                {find !== null && (
-                  <div>
-                    {find ? (
-                      <div>
-                        <img src="./assets/find.gif" lang="dato encontrado" />
-                        <small>Dato encontrado</small>
-                      </div>
-                    ) : (
-                      <div>
-                        <img
-                          src="./assets/nofind.gif"
-                          lang="dato no encontrado"
-                        />
-                        <small>Dato no encontrado</small>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div> */}
             </form>
             <div style={{ height: "300px" }}></div>
             <form className="p-4 p-md-5 border rounded-3 bg-light">
@@ -363,7 +269,7 @@ const Solidity = () => {
                   className="form-control"
                   id="inputroot"
                 />
-                <label htmlFor="inputroot">Introduzca Root</label>
+                <label htmlFor="inputroot">Root</label>
 
                 <button
                   id="registerRoot"
@@ -374,14 +280,6 @@ const Solidity = () => {
                   Registrar Root
                 </button>
               </div>
-              <button
-                id="btn-deposit"
-                onClick={() => createRoot()}
-                className="w-100 btn btn-lg btn-primary"
-                type="button"
-              >
-                Conseguir raíz
-              </button>
               <hr className="my-4" />
               <button
                 id="btn-buy"
@@ -393,7 +291,8 @@ const Solidity = () => {
               </button>
               <hr className="my-4" />
             </form>
-          </div>
+          </div>{" "}
+          {buyNFTOk && <img src="assets/nft.png" lang="imagen de NFT" />}
         </div>
       </div>
     </div>

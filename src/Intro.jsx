@@ -3,31 +3,11 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 const Intro = () => {
+  
   useEffect(function () {
     changeAccounts();
   }, []);
 
-  async function addNetwork() {
-    let networkData = [
-      {
-        chainId: "0x61",
-        chainName: "BSCTESTNET",
-        rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545"],
-        nativeCurrency: {
-          name: "BINANCE COIN",
-          symbol: "BNB",
-          decimals: 18,
-        },
-        blockExplorerUrls: ["https://testnet.bscscan.com/"],
-      },
-    ];
-
-    // agregar red o cambiar red
-    return window.ethereum.request({
-      method: "wallet_addEthereumChain",
-      params: networkData,
-    });
-  }
 
   async function init() {
     if (typeof window.ethereum !== "undefined") {
@@ -95,33 +75,37 @@ const Intro = () => {
             </h1>
             <p className="col-lg-10 fs-4 text-white">
               Un árbol Merkle es una estructura de datos dividida en varios
-              niveles relacionados como nodos con una raíz única representante
-              de todos ellos. Los árboles de Merkle permiten relacionar una gran
-              cantidad de datos en único punto (Merkle Root) y permite con ello
-              que no sea necesario el almacenaje de todos para una posterior
-              verificación.
+              niveles que están relacionados como nodos de una raíz única
+              representante de todos ellos. Los árboles de Merkle permiten
+              relacionar una gran cantidad de datos en un único punto (Merkle
+              Root) y permite con ello que no sea necesario el almacenaje de
+              todos ellos para una posterior verificación.
             </p>
             <p className="col-lg-10 fs-4 text-white">
               Para lograr esto, cada nodo debe estar identificado con un hash.
               Estos nodos iniciales, llamados nodos hijos u hojas, se asocian
               luego con un nodo superior llamado nodo padre o rama, que no es
-              más que otro hash generado con los hijos. El proceso se parece a
-              la endenación entre bloques que realiza una blockchain. Esta
-              estructura se repite hasta llegar a un nodo final llamado raíz o
-              raíz Merkle (Merkle Root), que con nuestro ejemplo sobre la
-              blockchain representaría al último bloque, cuya impronta de todos
-              los datos anteriores está asociada en el hash que hereda.
+              más que otro hash generado con los hashes hijos. El proceso se
+              parece a la encadenación entre bloques que se realiza en una
+              blockchain. Esta estructura se repite hasta llegar a un nodo final
+              llamado raíz o raíz de Merkle (Merkle Root), que con nuestro
+              ejemplo sobre la blockchain representaría al último bloque, cuya
+              impronta de todos los datos anteriores estará representada con el
+              hash heredado.
             </p>
             <p className="col-lg-10 fs-4 text-white">
               De esta forma, la verificación y validación de unos datos puede
-              ser muy eficiente al tener que verificar solamente el hash root
-              junto al hash aportado del dato que se ha de comprobar.
+              ser muy eficiente y barata. Solo es necesario registrar en el
+              contrato la raíz de los datos.
             </p>
             <p className="col-lg-10 fs-4 text-white">
               {" "}
-              Este diseño fue creado por Ralph Merkle, en el año de 1979, con el
-              fin de agilizar el proceso de verificación de grandes cantidades
-              de datos.
+              Este diseño fue creado por{" "}
+              <a href="https://es.wikipedia.org/wiki/Ralph_Merkle" target="_blanck">
+                Ralph Merkle
+              </a>
+              , en el año de 1979, con el fin de agilizar el proceso de
+              verificación de grandes cantidades de datos.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
@@ -151,15 +135,8 @@ const Intro = () => {
               mala práctica. Téngalo en cuenta a la hora de crear la suya.{" "}
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              {" "}
-              Si usted <strong>no dispone</strong> de la red de pruebas de BSC,
-              se instalará apretando <strong>el botón naranja</strong>. Si ya la
-              dispone, cambiará a esa red automáticamente.
-            </p>
-            <p className="col-lg-10 fs-4 text-white">
-              Si no tenía la Red, tampoco tendra BNBs de prueba para hacer el
-              tutorial. Apretando al boton azul usted podrá reclamar algo de
-              BNBs para poder pagar las transacciones.
+              Si no tiene BNBs de prueba para hacer el
+              tutorial apriete el botón azul para poder reclamar tokens y así poder pagar las transacciones.
             </p>
           </div>
           <div className="col-md-10 mx-auto col-lg-5">
@@ -171,15 +148,6 @@ const Intro = () => {
             >
               Conectar Metamask
             </button>
-            <button
-              id="bnbNetwork"
-              onClick={() => addNetwork()}
-              className="w-100 btn btn-lg btn-warning mb-4"
-              type="button"
-            >
-              Añadir Red Binance Smart Chain de pruebas
-            </button>
-
             <button
               id="faucet"
               onClick={() => faucet()}

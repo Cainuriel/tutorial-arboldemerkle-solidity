@@ -113,7 +113,7 @@ const Solidity = () => {
     console.log("hoja del dato ", buf2hex(hashedAddress));
     const proof = merkleTree.getHexProof(hashedAddress);
     console.log("Ruta en el arbol, prueba de existencia: ", proof);
-    return proof;
+    await buyNFT(proof);
 
   }
 
@@ -154,9 +154,8 @@ const Solidity = () => {
     [network]
   );
 
-  async function buyNFT() {
-    
-    const createProof = await createProof();
+  async function buyNFT(createProof) {
+   
 
     const [account] = await window.ethereum.request({
       method: "eth_requestAccounts",
@@ -166,6 +165,7 @@ const Solidity = () => {
     const contract = new ethers.Contract(nftContract, NFT_MERKLE.abi, signer);
 
     try {
+      await contract.callStatic.safeMint(createProof);
       const tx = await contract.safeMint(createProof);
       Swal.fire({
         title: "Procesando su compra de NFTs",
@@ -181,14 +181,14 @@ const Solidity = () => {
       const Ok = await tx.wait();
       if (Ok) {
         Swal.fire({
-          title: `Se ha enviado un  NFT a la cuenta ${signer}`,
+          title: `Se ha enviado un  NFT a la cuenta ${account}`,
           html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
           icon: "success",
           confirmButtonText: "Cerrar",
         });
       }
     } catch (err) {
-      let mensajeError = err.message;
+      let mensajeError = err.reason;
 
       Swal.fire({
         title: "Ooops!",
@@ -357,7 +357,7 @@ const Solidity = () => {
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input
-                   value={rootHook}
+                  value={rootHook}
                   onChange={(e) => setInputRoot(e.target.value)}
                   type="text"
                   className="form-control"
@@ -385,7 +385,7 @@ const Solidity = () => {
               <hr className="my-4" />
               <button
                 id="btn-buy"
-                onClick={() => buyNFT()}
+                onClick={() => createProof()}
                 className="w-100 btn btn-lg btn-danger"
                 type="button"
               >

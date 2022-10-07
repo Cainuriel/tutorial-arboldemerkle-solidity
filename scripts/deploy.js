@@ -1,5 +1,4 @@
-const hre = require("hardhat");
-
+import hre from "hardhat";
 async function main() {
 
   const NFT_MERKLE = await hre.ethers.getContractFactory("NFT_MERKLE");

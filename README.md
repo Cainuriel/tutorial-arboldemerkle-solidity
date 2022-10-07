@@ -5,11 +5,7 @@
 Proyecto inicilializado con VITE. 
 
 ## iniciar
-
-``` 
-npm create vite@latest
- ```
- ```
+```
  npm create vite@latest tutorial-merkcle --template react
  ```
 

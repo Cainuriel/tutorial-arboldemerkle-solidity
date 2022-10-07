@@ -4,6 +4,24 @@
 
 Proyecto inicilializado con VITE. 
 
+## iniciar
+
+``` npm create vite@latest
+ ```
+ ```
+ npm create vite@latest tutorial-merkcle --template react
+ ```
+
+ ```
+ npm i
+ ```
+ ### lanzar
+ ```
+ npm run dev
+ ```
+
+ ## Problemas con el entorno de desarrollo
+
 ### versión especial de hardhat para soporte básico de ESM
 Se ha instalado la siguiente version de hardhat: ``` npm i hardhat@esm ```
 Sobre el problema que me surgió y su solución:  

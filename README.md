@@ -21,7 +21,9 @@ Proyecto inicilializado con VITE.
 
 ### versión especial de hardhat para soporte básico de ESM
 Se ha instalado la siguiente version de hardhat: ``` npm i hardhat@esm ```
-Sobre el problema que me surgió y su solución:  
+para disponer del soporte básico de ESM.
+
+Sobre el problema y su solución:  
 [aquí](https://github.com/NomicFoundation/hardhat/issues/957#issuecomment-1256094430)
 
 Este es el motivo por el cual el archivo de configuración de hardhat acaba en ```.cjs``` junto al archivo deploy.

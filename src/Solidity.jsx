@@ -11,6 +11,7 @@ const Solidity = () => {
   const [buyNFTOk, setBuyNFTOk] = useState(false);
   const [inputRoot, setInputRoot] = useState("");
   const [network, setNetwork] = useState("no-net");
+  const [register, setRegister] = useState(null);
   const nftContract = "0xfF53f8B4250e74d48f59F9c22C85C2781611C178";
   const BINANCENETWORK = "bnbt";
   const [doubleCheck, setDoubleChek] = useState(0);
@@ -149,80 +150,91 @@ const Solidity = () => {
     }
   }
 
+    useEffect(() => {
+      if (find !== null) {
+        setTimeout(() => {
+          // eliminamos la animacion a los cuatro segundos.
+          setRegister(null);
+        }, 1000);
+      }
+    }, [register]);
+
   return (
     <div className="App">
       <div className="b-example-divider"></div>
       <div className="bg-dark container col-xl-10 col-xxl-8 px-4 py-5">
         <div className="row align-items-center g-lg-5 py-5">
-          { !buyNFTOk &&
+          {!buyNFTOk && (
             <div className="col-lg-7 text-center text-lg-start">
-            <h2 className="display-4 fw-bold lh-1 mb-3 text-white">
-              Ejemplo con Solidity: Whitelist de compra de NFTs
-            </h2>
-            <p className="col-lg-12 fs-4 text-white">
-              Generalmente, la generación de una whitelist para compra o acceso
-              a un proyecto suele ser recabada por medios tradicionales
-              offChain. Esto suele ser un quebradero de cabeza para los desarrolladores
-              Web3. Ya que nosotros consideramos más seguro y eficiente un
-              registro directo sobre el contrato. Es decir, que cada usuario que
-              desee estar en la whitelist pase por la dApp y se registre el
-              mismo en el contrato. Con ello evitamos errores o reclamaciones.
-              Pero una cosa es como se debería hacer y otra cosa es como se
-              "suele hacer". Aplicando el principio de que "aquí, se ha hecho
-              siempre así" los desarrolladores blockchain no tenemos otra que
-              saber conectar con "las viejas prácticas".
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              Una de las soluciones para no tener que registrar en bruto una
-              base de datos de cuentas priviliegiadas es con el uso de éste
-              árbol de merkle. Recabada las direcciones de la forma tradicional,
-              se registrarán en un array para generar la correspondiente root. A
-              partir de ahí, el contrato verificará la dirección que le llame
-              con la prueba de merkle correspondiente.
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              Vamos a verlo detenidamente.
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              Primeramente generaremos un array de direcciones en las que ha de
-              introducir alguna que usted posea. Introduzca una a una estos
-              datos en el campo "Introduzca dirección" del panel "Registro
-              Array" y apriete "Registrar dato" tantas veces como direcciones
-              desee registrar. Así se creará el array con el que generará su
-                base de datos a verificar. Recuerde que si actualiza la página los
-                datos registrados se perderán.
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              Cuando considere que ha introducido todos los datos que desee
-              verificar apriete el botón de "Conseguir raíz". Aparecerá entonces
-              tando debajo como en el campo "Root" del siguiente panel de interración con el
-              contrato de NFTs.
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              A continuación tendrá que registrar su raíz en el contrato de
-              NFTs. Como éste es un contrato con fines educativos en el se
-              permite tantos registros como usuarios interactuen con el.
-              Evidentemente esto no es funcional para un contrato que pretende
-              verificar una lista segura. Por lógica tendría que estar solo
-                accesible para el owner o cuenta con role admin. También he dejado en el contrato
-                un acceso público a
-                la función de validación del árbol de merkle: "isValid", para que usted pueda hacer pruebas
-                con el contrato desde Remix. 
-            </p>
-            <p className="col-lg-12 fs-4 text-white">
-              Registrada la raíz en el contrato intente ahora adquirir un NFT con una cuenta que haya registado en su
-              base de datos. Si la dirección estaba en los datos introducidos por
-                usted le permitirá la compra gratuita en nuestro ejemplo. En caso contrario le rechazará la transacción. 
-            </p>
+              <h2 className="display-4 fw-bold lh-1 mb-3 text-white">
+                Ejemplo con Solidity: Whitelist de compra de NFTs
+              </h2>
+              <p className="col-lg-12 fs-4 text-white">
+                Generalmente, la generación de una whitelist para compra o
+                acceso a un proyecto suele ser recabada por medios tradicionales
+                offChain. Esto suele ser un quebradero de cabeza para los
+                desarrolladores Web3. Ya que nosotros consideramos más seguro y
+                eficiente un registro directo sobre el contrato. Es decir, que
+                cada usuario que desee estar en la whitelist pase por la dApp y
+                se registre el mismo en el contrato. Con ello evitamos errores o
+                reclamaciones. Pero una cosa es como se debería hacer y otra
+                cosa es como se "suele hacer". Aplicando el principio de que
+                "aquí, se ha hecho siempre así" los desarrolladores blockchain
+                no tenemos otra que saber conectar con "las viejas prácticas".
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                Una de las soluciones para no tener que registrar en bruto una
+                base de datos de cuentas priviliegiadas es con el uso de éste
+                árbol de merkle. Recabada las direcciones de la forma
+                tradicional, se registrarán en un array para generar la
+                correspondiente root. A partir de ahí, el contrato verificará la
+                dirección que le llame con la prueba de merkle correspondiente.
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                Vamos a verlo detenidamente.
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                Primeramente generaremos un array de direcciones en las que ha
+                de introducir alguna que usted posea. Introduzca una a una estos
+                datos en el campo "Introduzca dirección" del panel "Registro
+                Array" y apriete "Registrar dato" tantas veces como direcciones
+                desee registrar. Así se creará el array con el que generará su
+                base de datos a verificar. Recuerde que si actualiza la página
+                los datos registrados se perderán.
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                Cuando considere que ha introducido todos los datos que desee
+                verificar apriete el botón de "Conseguir raíz". Aparecerá
+                entonces tando debajo como en el campo "Root" del siguiente
+                panel de interración con el contrato de NFTs.
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                A continuación tendrá que registrar su raíz en el contrato de
+                NFTs. Como éste es un contrato con fines educativos en el se
+                permite tantos registros como usuarios interactuen con el.
+                Evidentemente esto no es funcional para un contrato que pretende
+                verificar una lista segura. Por lógica tendría que estar solo
+                accesible para el owner o cuenta con role admin. También he
+                dejado en el contrato un acceso público a la función de
+                validación del árbol de merkle: "isValid", para que usted pueda
+                hacer pruebas con el contrato desde Remix.
+              </p>
+              <p className="col-lg-12 fs-4 text-white">
+                Registrada la raíz en el contrato intente ahora adquirir un NFT
+                con una cuenta que haya registado en su base de datos. Si la
+                dirección estaba en los datos introducidos por usted le
+                permitirá la compra gratuita en nuestro ejemplo. En caso
+                contrario le rechazará la transacción.
+              </p>
             </div>
-          }
+          )}
           <div className="col-md-10 mx-auto col-lg-5">
             <form className="p-4 p-md-5 border rounded-3 bg-light">
               <h2>Registro Array</h2>
               <hr className="my-4" />
               <div className="form-floating mb-3">
                 <input
-                  // value={dataValue}
+                  
                   onChange={(e) => setDataValue(e.target.value)}
                   type="text"
                   className="form-control"
@@ -232,8 +244,10 @@ const Solidity = () => {
                 <button
                   id="checkData"
                   onClick={() => {
+                    setRegister(true);
                     return setDataArray([...dataArray, dataValue]);
-                  }}
+                    }
+                  }
                   className="btn-success w-100 btn btn-lg"
                   type="button"
                 >
@@ -258,6 +272,26 @@ const Solidity = () => {
               />
               <label htmlFor="root">Raíz</label>
               <hr className="my-4" />
+              <div id="registerAddresses" className="text-muted">
+                {register !== null && (
+                  <div>
+                    {register ? (
+                      <div>
+                        <img src="./assets/find.gif" lang="dato encontrado" />
+                        <small>¡Registrado!</small>
+                      </div>
+                    ) : (
+                      <div>
+                        <img
+                          src="./assets/nofind.gif"
+                          lang="dato no encontrado"
+                        />
+                        <small>Error en el registro</small>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </form>
             <div style={{ height: "300px" }}></div>
             <form className="p-4 p-md-5 border rounded-3 bg-light">

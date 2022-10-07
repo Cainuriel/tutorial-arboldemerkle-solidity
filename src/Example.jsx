@@ -49,7 +49,7 @@ const Example = () => {
     "0x322d9e3F049a845e9C8ED089B2Bdf8F33c65a08F",
   ]);
   const [dataValue, setDataValue] = useState("");
-  const [find, setFind] = useState(null)
+  const [find, setFind] = useState(null);
   const [network, setNetwork] = useState("no-net");
   const BINANCENETWORK = "bnbt";
 

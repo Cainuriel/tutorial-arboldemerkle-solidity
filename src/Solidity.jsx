@@ -157,12 +157,12 @@ const Solidity = () => {
           { !buyNFTOk &&
             <div className="col-lg-7 text-center text-lg-start">
             <h2 className="display-4 fw-bold lh-1 mb-3 text-white">
-              Ejemplo con Solidity: White List de compra de NFTs
+              Ejemplo con Solidity: Whitelist de compra de NFTs
             </h2>
             <p className="col-lg-12 fs-4 text-white">
-              Generalmente, la generación de una white list para compra o acceso
+              Generalmente, la generación de una whitelist para compra o acceso
               a un proyecto suele ser recabada por medios tradicionales
-              offChain. Esto es un quebradero de cabeza para los desarrolladores
+              offChain. Esto suele ser un quebradero de cabeza para los desarrolladores
               Web3. Ya que nosotros consideramos más seguro y eficiente un
               registro directo sobre el contrato. Es decir, que cada usuario que
               desee estar en la whitelist pase por la dApp y se registre el
@@ -195,8 +195,8 @@ const Solidity = () => {
             <p className="col-lg-12 fs-4 text-white">
               Cuando considere que ha introducido todos los datos que desee
               verificar apriete el botón de "Conseguir raíz". Aparecerá entonces
-              en el campo "Root" del siguiente panel de interración con el
-              contrato
+              tando debajo como en el campo "Root" del siguiente panel de interración con el
+              contrato de NFTs.
             </p>
             <p className="col-lg-12 fs-4 text-white">
               A continuación tendrá que registrar su raíz en el contrato de
@@ -204,13 +204,15 @@ const Solidity = () => {
               permite tantos registros como usuarios interactuen con el.
               Evidentemente esto no es funcional para un contrato que pretende
               verificar una lista segura. Por lógica tendría que estar solo
-              accesible para el owner o cuenta con role admin.
+                accesible para el owner o cuenta con role admin. También he dejado en el contrato
+                un acceso público a
+                la función de validación del árbol de merkle: "isValid", para que usted pueda hacer pruebas
+                con el contrato desde Remix. 
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Hecho esto intente comprar con una cuenta que haya registado en su
+              Registrada la raíz en el contrato intente ahora adquirir un NFT con una cuenta que haya registado en su
               base de datos. Si la dirección estaba en los datos introducidos por
-              usted le permitirá la compra. En caso contrario le rechazará la transacción.
-
+                usted le permitirá la compra gratuita en nuestro ejemplo. En caso contrario le rechazará la transacción. 
             </p>
             </div>
           }

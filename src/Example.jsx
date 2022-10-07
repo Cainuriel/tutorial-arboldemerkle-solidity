@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { ethers } from "ethers";
-//import ReceiverPays from "./artifacts/contracts/ReceiverPays.sol/ReceiverPays.json";
 import Swal from "sweetalert2";
 
 const Example = () => {
@@ -73,7 +72,6 @@ const Example = () => {
     }
   }, [find])
   
-
   function checkData() {
     const buf2hex = (x) => "0x" + x.toString("hex");
     // creamos las hojas
@@ -211,13 +209,13 @@ const Example = () => {
               0x322d9e3F049a845e9C8ED089B2Bdf8F33c65a08F
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Coloque un dato de la lista vigilando no dejar ningún
-              espacio. Seguidamente apriete el botón "Comprobar dato". Haga lo propio ahora con un dato ajeno a la lista compartida.
+              Coloque una dirección de la lista vigilando no dejar ningún
+              espacio. Seguidamente apriete el botón "Comprobar dato". Haga lo propio ahora con una dirección ajeno a la lista compartida.
             </p>
             <p className="col-lg-12 fs-4 text-white">
-              Las búsquedas se generarán  y si encuentra el dato aparecerá un
-              check, en caso contrario le avisará de su inexistencia. Si quiere ver la prueba del árbol de merkle abra la
-              consola javascript. Esta prueba es "la ruta de hashes" correcta
+              Las búsquedas se generarán  y si encuentra la dirección aparecerá un
+              check, en caso contrario le avisará de su inexistencia. Si quiere ver el árbol junto a su prueba <strong>abra la
+              consola javascript</strong> . Esta prueba es "la ruta de hashes" correcta
               empezando por la hoja más baja: su dato compartido. Si al realizar
               la comprobación su dato no genera un hash existente todos los
               demás fallarán en cascada devolviendo un array vacio.

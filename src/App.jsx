@@ -20,7 +20,7 @@ function App() {
           <section className="">
             <a
               className="text-decoration-none"
-              href="https://github.com/Cainuriel/ERC-Contracts/tree/main/payment-channel"
+              href="https://github.com/Cainuriel/tutorial-arboldemerkle-solidity"
               target="_blank"
               rel="noreferrer"
             >

@@ -75,14 +75,14 @@ const Intro = () => {
             </h1>
             <p className="col-lg-10 fs-4 text-white">
               Un árbol Merkle es una estructura de datos dividida en varios
-              niveles que están relacionados como nodos de una raíz única
-              representante de todos ellos. Los árboles de Merkle permiten
+              niveles que están relacionados como nodos de una raíz única.
+              Los árboles de Merkle permiten
               relacionar una gran cantidad de datos en un único punto (Merkle
               Root) y permite con ello que no sea necesario el almacenaje de
               todos ellos para una posterior verificación.
             </p>
             <p className="col-lg-10 fs-4 text-white">
-              Para lograr esto, cada nodo debe estar identificado con un hash.
+              Para lograr esto cada nodo debe estar identificado con un hash.
               Estos nodos iniciales, llamados nodos hijos u hojas, se asocian
               luego con un nodo superior llamado nodo padre o rama, que no es
               más que otro hash generado con los hashes hijos. El proceso se

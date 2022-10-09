@@ -10,20 +10,20 @@
     "deploy": "node ./scripts/deploy.js"
   },
   "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.5.0",
+    "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sweetalert2": "^11.4.37"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.1.1",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts": "^4.5.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
-    "dotenv": "^16.0.3",
-    "hardhat": "^2.11.2",
+    "hardhat": "^2.12.0-esm.1",
     "vite": "^3.1.0"
   }
 }

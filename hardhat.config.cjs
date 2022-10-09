@@ -1,9 +1,7 @@
+require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-ethers');
+require('dotenv').config();
 
-
-import "@nomiclabs/hardhat-waffle";
-import '@nomiclabs/hardhat-ethers';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 const { PRIVATE_KEY } = process.env;
 
@@ -23,7 +21,7 @@ task("accounts", "Prints the list of accounts", async () => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
-const config = {
+ module.exports = {
   defaultNetwork: "testnet",
   networks: {
     localhost: {
@@ -62,6 +60,3 @@ const config = {
     timeout: 20000
   }
 };
-
-
-export default config;

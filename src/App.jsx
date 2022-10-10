@@ -51,7 +51,7 @@ function App() {
               href="https://testnet.bscscan.com/address/0xaE4f5cb0F2dbAE7Bff53ca6B585f966EA8E6736F#code"
               target="_blank"
             >
-              Contrato en Ethersann
+              Contrato verificado
             </a>
           </div>
         </div>

@@ -12,66 +12,67 @@ const Solidity = () => {
   const [inputRoot, setInputRoot] = useState("");
   const [network, setNetwork] = useState("no-net");
   const [register, setRegister] = useState(null);
-  const nftContract = "0xfF53f8B4250e74d48f59F9c22C85C2781611C178";
+  const nftContract = "0xaE4f5cb0F2dbAE7Bff53ca6B585f966EA8E6736F";
   const BINANCENETWORK = "bnbt";
-  const [doubleCheck, setDoubleChek] = useState(0);
+  const [doubleCheck, setDoubleChek] = useState(false);
 
   //console.log("data Value ", dataValue);
   //console.log("array ", dataArray);
 
   async function setRootToContract() {
-    if (typeof window.ethereum !== "undefined") {
-      if (network == BINANCENETWORK || doubleCheck == 1) {
-        const [account] = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-          nftContract,
-          NFT_MERKLE.abi,
-          signer
-        );
-        //let bnbAmount = ethers.utils.parseEther(amount).toString();
-        try {
-          const tx = await contract.rootUser(rootHook);
-          Swal.fire({
-            title: "Procesando el registro de su root",
-            text: "Espere, y no actualice la página",
-            // icon: 'info',
-            showConfirmButton: false,
-            imageUrl:
-              "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
-            imageWidth: 100,
-            imageHeight: 100,
-            imageAlt: "Procesando el ingreso",
-          });
-          const Ok = await tx.wait();
-          if (Ok) {
-            Swal.fire({
-              title: `Se ha enviado el hash: ${rootHook} de su root al contrato ${nftContract}`,
-              html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
-              icon: "success",
-              confirmButtonText: "Cerrar",
-            });
-          }
 
-        } catch (err) {
-          let mensajeError = err.message;
-
-          Swal.fire({
-            title: "Ooops!",
-            text: `${mensajeError}`,
-            icon: "error",
-            confirmButtonText: "Cerrar",
-          });
-          console.log("Error: ", err);
+    if (!doubleCheck) {
+       setDoubleChek(true);
+       const [account] = await window.ethereum.request({
+         method: "eth_requestAccounts",
+       });
+       const provider = new ethers.providers.Web3Provider(window.ethereum);
+       const signer = provider.getSigner();
+       const contract = new ethers.Contract(
+         nftContract,
+         NFT_MERKLE.abi,
+         signer
+       );
+       //let bnbAmount = ethers.utils.parseEther(amount).toString();
+       try {
+         const tx = await contract.rootUser(rootHook);
+         Swal.fire({
+           title: "Procesando el registro de su root",
+           text: "Espere, y no actualice la página",
+           // icon: 'info',
+           showConfirmButton: false,
+           imageUrl:
+             "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+           imageWidth: 100,
+           imageHeight: 100,
+           imageAlt: "Procesando el ingreso",
+         });
+         const Ok = await tx.wait();
+         if (Ok) {
+           setDoubleChek(false);
+           Swal.fire({
+             title: `Se ha enviado el hash: ${rootHook} de su root al contrato ${nftContract}`,
+             html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
+             icon: "success",
+             confirmButtonText: "Cerrar",
+           });
+         }
+       } catch (err) {
+         let mensajeError = err.message;
+         setDoubleChek(false);
+         Swal.fire({
+           title: "Ooops!",
+           text: `${mensajeError}`,
+           icon: "error",
+           confirmButtonText: "Cerrar",
+         });
+         console.log("Error: ", err);
+       }
+          
         }
-      } else {
-        setDoubleChek(1); // prevents double check
-        
-      }
-    }
+       
+      
+    
   }
 
 
@@ -85,6 +86,12 @@ const Solidity = () => {
   }
 
   async function createProof() {
+    if (!doubleCheck) {
+      setDoubleChek(true);
+     const [account] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+    console.log("direccion a buscar ", account);
     const buf2hex = (x) => "0x" + x.toString("hex");
     // creamos las hojas
     const leaves = dataArray.map((addr) => keccak256(addr));
@@ -93,22 +100,20 @@ const Solidity = () => {
     const rootHash = merkleTree.getRoot().toString("hex");
     // console.log("arbol de merkle", merkleTree.toString());
     // console.log("raiz ", rootHash);
-    // creamos el hash del datao ha comprobar
-    const hashedAddress = keccak256(dataValue);
+    // creamos el hash del dato ha comprobar
+    const hashedAddress = keccak256(account);
     console.log("hoja del dato ", buf2hex(hashedAddress));
     const proof = merkleTree.getHexProof(hashedAddress);
     console.log("Ruta en el arbol, prueba de existencia: ", proof);
     await buyNFT(proof);
+    }
+ 
 
   }
 
 
   async function buyNFT(createProof) {
-   
 
-    const [account] = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(nftContract, NFT_MERKLE.abi, signer);
@@ -129,8 +134,9 @@ const Solidity = () => {
       });
       const Ok = await tx.wait();
       if (Ok) {
+         setDoubleChek(false);
         Swal.fire({
-          title: `Se ha enviado un  NFT a la cuenta ${account}`,
+          title: `Se ha enviado un  NFT a su cuenta`,
           html: `<a href="https://testnet.bscscan.com/tx/${tx.hash}" target="_blank" rel="noreferrer">Hash de la transacción</a>`,
           icon: "success",
           confirmButtonText: "Cerrar",
@@ -139,7 +145,7 @@ const Solidity = () => {
       }
     } catch (err) {
       let mensajeError = err.reason;
-
+       setDoubleChek(false);
       Swal.fire({
         title: "Ooops!",
         text: `${mensajeError}`,
@@ -318,7 +324,7 @@ const Solidity = () => {
               </div>
               <hr className="my-4" />
               <button
-                id="btn-buy"
+                id="btn-buy-nft"
                 onClick={() => createProof()}
                 className="w-100 btn btn-lg btn-danger"
                 type="button"

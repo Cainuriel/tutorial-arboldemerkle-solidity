@@ -45,10 +45,18 @@ function App() {
             <img src="./assets/favicon.ico" />
             Developer Superloper
           </a>
+          <div >
+            <a
+            className="text-decoration-none"
+            href="https://testnet.bscscan.com/address/0xCd8555d1BfBaB271fD9f009D88383b4a7FC6E56a#code"
+            target="_blank"
+          >
+            Contrato en Ethersann
+          </a>
+          </div>    
         </div>
       </footer>
     </div>
   );
 }
-
-export default App;
+ export default App;

@@ -104,7 +104,7 @@ const Example = () => {
           BINANCENETWORK,
         confirmButtonText: "Cambiar o instalar red BNB de pruebas",
         //imageUrl: 'https://i2.wp.com/criptotendencia.com/wp-content/uploads/2020/04/binance-smart-chain.jpg?fit=1200%2C674&ssl=1',
-        imageUrl: "https://cryptodaily.io/wp-content/uploads/2021/07/p-2.png",
+        imageUrl: "./assets/processing.gif",
         imageWidth: 300,
 
         imageAlt: "Red Binance Smart Chain",

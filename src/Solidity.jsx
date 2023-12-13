@@ -42,7 +42,7 @@ const Solidity = () => {
            // icon: 'info',
            showConfirmButton: false,
            imageUrl:
-             "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+           "./assets/processing.gif",
            imageWidth: 100,
            imageHeight: 100,
            imageAlt: "Procesando el ingreso",
@@ -127,7 +127,7 @@ const Solidity = () => {
         // icon: 'info',
         showConfirmButton: false,
         imageUrl:
-          "https://thumbs.gfycat.com/ConventionalOblongFairybluebird-size_restricted.gif",
+        "./assets/processing.gif",
         imageWidth: 100,
         imageHeight: 100,
         imageAlt: "Procesando su compra",
